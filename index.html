@@ -2,7 +2,7 @@
 <html lang="es" class="h-full">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Vemar Cafetería — Alsasua</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -27,6 +27,9 @@
       background: var(--bg);
       color: var(--text);
       margin: 0;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .font-display {
@@ -44,15 +47,6 @@
     .anim-delay-1 { animation-delay: 0.15s; }
     .anim-delay-2 { animation-delay: 0.3s; }
     .anim-delay-3 { animation-delay: 0.45s; }
-    .anim-delay-4 { animation-delay: 0.6s; }
-
-    .gallery-card {
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .gallery-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(59,47,47,0.12);
-    }
 
     .nav-link {
       position: relative;
@@ -111,34 +105,133 @@
 
     #map {
       width: 100%;
-      height: 400px;
-      border-radius: 16px;
+      height: 300px;
+      border-radius: 12px;
       box-shadow: 0 10px 30px rgba(59,47,47,0.1);
     }
 
     .logo-container {
       display: flex;
       align-items: center;
-      height: 50px;
+      height: 45px;
     }
 
     .logo-container img {
       max-height: 100%;
-      max-width: 50px;
+      max-width: 45px;
       object-fit: contain;
     }
 
     .logo-placeholder {
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       background: var(--primary);
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--surface);
       font-weight: bold;
-      font-size: 24px;
+      font-size: 20px;
+    }
+
+    /* Reviews carousel - mobile optimized */
+    .reviews-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reviews-wrapper {
+      display: flex;
+      transition: transform 0.5s ease-out;
+      gap: 12px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .review-card {
+      flex: 0 0 100%;
+      min-width: 100%;
+      scroll-snap-align: start;
+    }
+
+    @media (min-width: 640px) {
+      .review-card {
+        flex: 0 0 calc(50% - 6px);
+        min-width: calc(50% - 6px);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .review-card {
+        flex: 0 0 calc(33.333% - 8px);
+        min-width: calc(33.333% - 8px);
+      }
+      .carousel-btn.mobile-only { display: none !important; }
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--primary);
+      color: var(--surface);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: var(--text);
+    }
+
+    .carousel-btn.prev {
+      left: -55px;
+    }
+
+    .carousel-btn.next {
+      right: -55px;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-btn.mobile-only {
+        position: static;
+        transform: translateY(0);
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+      .carousel-btn.prev { left: auto; }
+      .carousel-btn.next { right: auto; }
+    }
+
+    .stars {
+      color: #FFD700;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    .gallery-card {
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .gallery-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(59,47,47,0.08);
+    }
+
+    /* Mobile-first optimizations */
+    @media (max-width: 640px) {
+      h1 { font-size: 2.5rem !important; }
+      h2 { font-size: 1.875rem !important; }
+      .nav-link { font-size: 0.75rem; }
+      header nav { padding: 1rem 1rem !important; }
     }
   </style>
   <style>body { box-sizing: border-box; }</style>
@@ -147,28 +240,28 @@
  <body class="h-full">
   <div class="grain-overlay"></div>
   <div id="app-wrapper" class="w-full h-full overflow-auto" style="background: var(--bg);"><!-- Navigation -->
-   <header class="w-full" style="background: var(--bg);">
-    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-     <div class="logo-container"><img id="logo-img" src="" alt="Vemar Cafetería Logo" loading="lazy" onerror="console.error('Logo failed to load:', this.src); document.getElementById('logo-placeholder').style.display='flex'; this.style.display='none';" style="display: none;">
+   <header class="w-full sticky top-0 z-50 shadow-sm" style="background: var(--bg);">
+    <nav class="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+     <div class="logo-container"><img id="logo-img" src="" alt="Logo" loading="lazy" onerror="console.error('Logo failed:', this.src); document.getElementById('logo-placeholder').style.display='flex'; this.style.display='none';" style="display: none;">
       <div id="logo-placeholder" class="logo-placeholder">
        V
       </div>
      </div>
-     <div class="flex gap-8 text-sm font-medium tracking-wider uppercase" style="color: var(--text);"><a href="#about" class="nav-link hidden sm:block">Quiénes Somos</a> <a href="#gallery" class="nav-link hidden sm:block">Galería</a> <a href="#contact" class="nav-link">Contacto</a>
+     <div class="flex gap-4 md:gap-8 text-xs md:text-sm font-medium tracking-wider uppercase" style="color: var(--text);"><a href="#about" class="nav-link hidden sm:block">Quiénes Somos</a> <a href="#gallery" class="nav-link hidden sm:block">Galería</a> <a href="#reviews" class="nav-link hidden sm:block">Reseñas</a> <a href="#contact" class="nav-link">Contacto</a>
      </div>
     </nav>
    </header><!-- Hero Section -->
    <main>
-    <section id="hero" class="w-full px-6 py-16 md:py-24">
-     <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+    <section id="hero" class="w-full px-4 md:px-6 py-12 md:py-24">
+     <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12">
       <div class="flex-1 text-center md:text-left">
-       <h1 id="hero-title" class="font-display text-5xl md:text-7xl font-bold leading-tight anim-in" style="color: var(--text);">Vemar<br>
+       <h1 id="hero-title" class="font-display text-4xl md:text-7xl font-bold leading-tight anim-in" style="color: var(--text);">Vemar<br>
         Cafetería</h1>
-       <div class="divider mx-auto md:mx-0 mt-6 mb-6 anim-in anim-delay-1"></div>
-       <p id="hero-subtitle" class="text-lg md:text-xl font-light leading-relaxed max-w-md mx-auto md:mx-0 anim-in anim-delay-2" style="color: var(--primary);">Tu rincón de tranquilidad en Alsasua</p><a href="#about" class="inline-block mt-8 px-8 py-3 rounded-full text-sm font-medium tracking-wider uppercase transition-all duration-300 anim-in anim-delay-3" style="background: var(--primary); color: var(--surface);" onmouseover="this.style.background='var(--text)'" onmouseout="this.style.background='var(--primary)'"> Descúbrenos </a>
+       <div class="divider mx-auto md:mx-0 mt-4 md:mt-6 mb-4 md:mb-6 anim-in anim-delay-1"></div>
+       <p id="hero-subtitle" class="text-base md:text-xl font-light leading-relaxed max-w-md mx-auto md:mx-0 anim-in anim-delay-2" style="color: var(--primary);">Tu rincón de tranquilidad en Alsasua</p><a href="#about" class="inline-block mt-6 md:mt-8 px-6 md:px-8 py-2 md:py-3 rounded-full text-xs md:text-sm font-medium tracking-wider uppercase transition-all duration-300 anim-in anim-delay-3" style="background: var(--primary); color: var(--surface);" onmouseover="this.style.background='var(--text)'" onmouseout="this.style.background='var(--primary)'"> Descúbrenos </a>
       </div><!-- Coffee cup SVG illustration -->
       <div class="flex-1 flex justify-center anim-in anim-delay-3">
-       <svg width="280" height="320" viewbox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg"><!-- Steam --> <g transform="translate(100, 20)">
+       <svg width="200" height="240" viewbox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-xs md:max-w-none"><!-- Steam --> <g transform="translate(100, 20)">
          <path class="steam-line" d="M20 60 Q25 40, 20 20 Q15 0, 20 -15" stroke="var(--secondary)" stroke-width="2.5" fill="none" stroke-linecap="round" />
          <path class="steam-line" d="M40 55 Q45 35, 40 15 Q35 -5, 40 -20" stroke="var(--secondary)" stroke-width="2.5" fill="none" stroke-linecap="round" />
          <path class="steam-line" d="M60 60 Q65 40, 60 20 Q55 0, 60 -15" stroke="var(--secondary)" stroke-width="2.5" fill="none" stroke-linecap="round" />
@@ -177,44 +270,41 @@
       </div>
      </div>
     </section><!-- About Section -->
-    <section id="about" class="w-full px-6 py-20" style="background: var(--surface);">
+    <section id="about" class="w-full px-4 md:px-6 py-12 md:py-20" style="background: var(--surface);">
      <div class="max-w-5xl mx-auto reveal">
-      <div class="text-center mb-12">
-       <h2 id="about-heading" class="font-display text-4xl md:text-5xl font-bold" style="color: var(--text);">Quiénes Somos</h2>
-       <div class="divider mx-auto mt-5"></div>
+      <div class="text-center mb-8 md:mb-12">
+       <h2 id="about-heading" class="font-display text-3xl md:text-5xl font-bold" style="color: var(--text);">Quiénes Somos</h2>
+       <div class="divider mx-auto mt-4 md:mt-5"></div>
       </div>
-      <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
        <div>
-        <p id="about-text" class="text-base leading-relaxed mb-6" style="color: var(--text); opacity: 0.85;">En el corazón de Alsasua, Vemar Cafetería nace del amor por el buen café y la calma. Somos un espacio donde el tiempo se detiene, donde cada taza se prepara con dedicación y donde las conversaciones fluyen con la tranquilidad que mereces. Nuestro café, cuidadosamente seleccionado, acompaña tus mañanas, tus pausas y tus mejores momentos.</p>
-        <div class="flex flex-wrap gap-4 mt-8">
-         <div class="flex items-center gap-2 px-4 py-2 rounded-full text-sm" style="background: var(--bg); color: var(--primary);"><span>☕</span> Café de especialidad
+        <p id="about-text" class="text-sm md:text-base leading-relaxed mb-6" style="color: var(--text); opacity: 0.85;">En el corazón de Alsasua, Vemar Cafetería nace del amor por el buen café y la calma. Somos un espacio donde el tiempo se detiene, donde cada taza se prepara con dedicación y donde las conversaciones fluyen con la tranquilidad que mereces. Nuestro café, cuidadosamente seleccionado, acompaña tus mañanas, tus pausas y tus mejores momentos.</p>
+        <div class="flex flex-wrap gap-2 md:gap-4 mt-6 md:mt-8">
+         <div class="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm" style="background: var(--bg); color: var(--primary);"><span>☕</span> Café de especialidad
          </div>
-         <div class="flex items-center gap-2 px-4 py-2 rounded-full text-sm" style="background: var(--bg); color: var(--primary);"><span>🌿</span> Ambiente tranquilo
+         <div class="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm" style="background: var(--bg); color: var(--primary);"><span>🌿</span> Ambiente tranquilo
          </div>
-         <div class="flex items-center gap-2 px-4 py-2 rounded-full text-sm" style="background: var(--bg); color: var(--primary);"><span>🍰</span> Repostería artesanal
+         <div class="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm" style="background: var(--bg); color: var(--primary);"><span>🍰</span> Repostería artesanal
          </div>
         </div>
        </div><!-- Decorative SVG -->
-       <div class="flex justify-center">
-        <svg width="300" height="260" viewbox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg"><!-- Coffee beans pattern --> <rect x="20" y="20" width="260" height="220" rx="20" fill="var(--bg)" stroke="var(--secondary)" stroke-width="1.5" /> <!-- Bean 1 --> <g transform="translate(80, 70) rotate(-15)">
+       <div class="flex justify-center hidden md:flex">
+        <svg width="300" height="260" viewbox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="260" height="220" rx="20" fill="var(--bg)" stroke="var(--secondary)" stroke-width="1.5" /> <g transform="translate(80, 70) rotate(-15)">
           <ellipse cx="0" cy="0" rx="22" ry="14" fill="var(--primary)" opacity="0.8" />
           <path d="M0 -14 Q-4 0, 0 14" stroke="var(--bg)" stroke-width="2" fill="none" />
-         </g> <!-- Bean 2 --> <g transform="translate(160, 90) rotate(25)">
+         </g> <g transform="translate(160, 90) rotate(25)">
           <ellipse cx="0" cy="0" rx="20" ry="12" fill="var(--primary)" opacity="0.65" />
           <path d="M0 -12 Q-3 0, 0 12" stroke="var(--bg)" stroke-width="2" fill="none" />
-         </g> <!-- Bean 3 --> <g transform="translate(120, 150) rotate(-5)">
+         </g> <g transform="translate(120, 150) rotate(-5)">
           <ellipse cx="0" cy="0" rx="24" ry="15" fill="var(--primary)" opacity="0.75" />
           <path d="M0 -15 Q-5 0, 0 15" stroke="var(--bg)" stroke-width="2" fill="none" />
-         </g> <!-- Bean 4 --> <g transform="translate(200, 160) rotate(40)">
+         </g> <g transform="translate(200, 160) rotate(40)">
           <ellipse cx="0" cy="0" rx="18" ry="11" fill="var(--secondary)" opacity="0.7" />
           <path d="M0 -11 Q-3 0, 0 11" stroke="var(--bg)" stroke-width="1.5" fill="none" />
-         </g> <!-- Bean 5 --> <g transform="translate(70, 180) rotate(15)">
+         </g> <g transform="translate(70, 180) rotate(15)">
           <ellipse cx="0" cy="0" rx="16" ry="10" fill="var(--secondary)" opacity="0.6" />
           <path d="M0 -10 Q-3 0, 0 10" stroke="var(--bg)" stroke-width="1.5" fill="none" />
-         </g> <!-- Small decorative leaf --> <g transform="translate(220, 60)">
-          <path d="M0 0 Q15 -15, 30 -5 Q15 5, 0 0Z" fill="var(--secondary)" opacity="0.4" />
-          <path d="M2 0 Q15 -8, 28 -4" stroke="var(--bg)" stroke-width="1" fill="none" />
-         </g> <!-- Text --> <text x="150" y="230" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="16" fill="var(--primary)" font-style="italic" opacity="0.7">
+         </g> <text x="150" y="230" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="14" fill="var(--primary)" font-style="italic" opacity="0.7">
           desde Alsasua, con cariño
          </text>
         </svg>
@@ -222,109 +312,220 @@
       </div>
      </div>
     </section><!-- Gallery Section -->
-    <section id="gallery" class="w-full px-6 py-20" style="background: var(--bg);">
+    <section id="gallery" class="w-full px-4 md:px-6 py-12 md:py-20" style="background: var(--bg);">
      <div class="max-w-5xl mx-auto reveal">
-      <div class="text-center mb-14">
-       <h2 id="gallery-heading" class="font-display text-4xl md:text-5xl font-bold" style="color: var(--text);">Nuestro Espacio</h2>
-       <div class="divider mx-auto mt-5"></div>
+      <div class="text-center mb-8 md:mb-14">
+       <h2 id="gallery-heading" class="font-display text-3xl md:text-5xl font-bold" style="color: var(--text);">Nuestro Espacio</h2>
+       <div class="divider mx-auto mt-4 md:mt-5"></div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-5"><!-- Gallery Card 1 -->
-       <div class="gallery-card rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="100" height="100" viewbox="0 0 100 100" fill="none"><rect x="10" y="30" width="50" height="45" rx="5" fill="var(--secondary)" opacity="0.4" /> <rect x="15" y="35" width="40" height="30" rx="3" fill="var(--primary)" opacity="0.3" /> <circle cx="35" cy="48" r="8" fill="var(--primary)" opacity="0.5" /> <path d="M65 45 Q70 35, 80 40 Q85 50, 75 55 Q65 55, 65 45Z" fill="var(--secondary)" opacity="0.5" /> <text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5"><!-- Gallery cards (same as before but with responsive sizing) -->
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
+        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
+         <rect x="10" y="30" width="50" height="45" rx="5" fill="var(--secondary)" opacity="0.4" /><rect x="15" y="35" width="40" height="30" rx="3" fill="var(--primary)" opacity="0.3" /><circle cx="35" cy="48" r="8" fill="var(--primary)" opacity="0.5" /><path d="M65 45 Q70 35, 80 40 Q85 50, 75 55 Q65 55, 65 45Z" fill="var(--secondary)" opacity="0.5" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
           La barra
          </text>
         </svg>
-       </div><!-- Gallery Card 2 -->
-       <div class="gallery-card rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="100" height="100" viewbox="0 0 100 100" fill="none"><rect x="25" y="30" width="50" height="35" rx="8" fill="var(--secondary)" opacity="0.3" /> <rect x="30" y="45" width="15" height="18" rx="2" fill="var(--primary)" opacity="0.4" /> <rect x="50" y="45" width="15" height="18" rx="2" fill="var(--primary)" opacity="0.4" /> <circle cx="38" cy="38" r="3" fill="var(--primary)" opacity="0.6" /> <circle cx="57" cy="38" r="3" fill="var(--primary)" opacity="0.6" /> <text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Rincón acogedor
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
+        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
+         <rect x="25" y="30" width="50" height="35" rx="8" fill="var(--secondary)" opacity="0.3" /><rect x="30" y="45" width="15" height="18" rx="2" fill="var(--primary)" opacity="0.4" /><rect x="50" y="45" width="15" height="18" rx="2" fill="var(--primary)" opacity="0.4" /><circle cx="38" cy="38" r="3" fill="var(--primary)" opacity="0.6" /><circle cx="57" cy="38" r="3" fill="var(--primary)" opacity="0.6" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
+          Acogedor
          </text>
         </svg>
-       </div><!-- Gallery Card 3 -->
-       <div class="gallery-card rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="100" height="100" viewbox="0 0 100 100" fill="none"><circle cx="50" cy="45" r="20" fill="var(--secondary)" opacity="0.3" /> <circle cx="50" cy="45" r="14" fill="var(--primary)" opacity="0.35" /> <path d="M45 42 Q50 38, 55 42" stroke="var(--surface)" stroke-width="1.5" fill="none" opacity="0.6" /> <path d="M50 25 Q52 18, 50 12" stroke="var(--secondary)" stroke-width="1.5" fill="none" stroke-linecap="round" /> <path d="M44 27 Q46 20, 44 14" stroke="var(--secondary)" stroke-width="1.2" fill="none" stroke-linecap="round" /> <text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Nuestro café
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
+        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
+         <circle cx="50" cy="45" r="20" fill="var(--secondary)" opacity="0.3" /><circle cx="50" cy="45" r="14" fill="var(--primary)" opacity="0.35" /><path d="M45 42 Q50 38, 55 42" stroke="var(--surface)" stroke-width="1.5" fill="none" opacity="0.6" /><path d="M50 25 Q52 18, 50 12" stroke="var(--secondary)" stroke-width="1.5" fill="none" stroke-linecap="round" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
+          Café
          </text>
         </svg>
-       </div><!-- Gallery Card 4 -->
-       <div class="gallery-card rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="100" height="100" viewbox="0 0 100 100" fill="none"><rect x="20" y="35" width="60" height="30" rx="15" fill="var(--secondary)" opacity="0.3" /> <circle cx="35" cy="50" r="10" fill="var(--primary)" opacity="0.4" /> <circle cx="65" cy="50" r="10" fill="var(--primary)" opacity="0.3" /> <rect x="42" y="42" width="16" height="16" rx="3" fill="var(--primary)" opacity="0.35" /> <text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Dulces caseros
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
+        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
+         <rect x="20" y="35" width="60" height="30" rx="15" fill="var(--secondary)" opacity="0.3" /><circle cx="35" cy="50" r="10" fill="var(--primary)" opacity="0.4" /><circle cx="65" cy="50" r="10" fill="var(--primary)" opacity="0.3" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="9" fill="var(--primary)">
+          Pasteles
          </text>
         </svg>
-       </div><!-- Gallery Card 5 -->
-       <div class="gallery-card rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="100" height="100" viewbox="0 0 100 100" fill="none"><path d="M25 60 L50 25 L75 60 Z" fill="var(--secondary)" opacity="0.25" /> <path d="M35 60 L50 35 L65 60 Z" fill="var(--primary)" opacity="0.3" /> <rect x="20" y="58" width="60" height="12" rx="3" fill="var(--secondary)" opacity="0.2" /> <circle cx="50" cy="20" r="8" fill="var(--secondary)" opacity="0.3" /> <text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Ambiente único
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
+        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
+         <path d="M25 60 L50 25 L75 60 Z" fill="var(--secondary)" opacity="0.25" /><path d="M35 60 L50 35 L65 60 Z" fill="var(--primary)" opacity="0.3" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="9" fill="var(--primary)">
+          Ambiente
          </text>
         </svg>
-       </div><!-- Gallery Card 6 -->
-       <div class="gallery-card rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="100" height="100" viewbox="0 0 100 100" fill="none"><rect x="30" y="25" width="40" height="45" rx="6" fill="var(--secondary)" opacity="0.25" /> <rect x="35" y="30" width="30" height="20" rx="3" fill="var(--primary)" opacity="0.3" /> <line x1="35" y1="58" x2="65" y2="58" stroke="var(--primary)" stroke-width="1.5" opacity="0.3" /> <line x1="35" y1="63" x2="55" y2="63" stroke="var(--primary)" stroke-width="1.5" opacity="0.25" /> <text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Nuestra carta
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
+        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
+         <rect x="30" y="25" width="40" height="45" rx="6" fill="var(--secondary)" opacity="0.25" /><rect x="35" y="30" width="30" height="20" rx="3" fill="var(--primary)" opacity="0.3" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="9" fill="var(--primary)">
+          Carta
          </text>
         </svg>
        </div>
       </div>
      </div>
-    </section><!-- Contact Section -->
-    <section id="contact" class="w-full px-6 py-20" style="background: var(--surface);">
+    </section><!-- Reviews Section -->
+    <section id="reviews" class="w-full px-3 md:px-6 py-12 md:py-20" style="background: var(--surface);">
      <div class="max-w-5xl mx-auto reveal">
-      <div class="text-center mb-14">
-       <h2 id="contact-heading" class="font-display text-4xl md:text-5xl font-bold" style="color: var(--text);">Visítanos</h2>
-       <div class="divider mx-auto mt-5"></div>
+      <div class="text-center mb-8 md:mb-14">
+       <h2 class="font-display text-3xl md:text-5xl font-bold" style="color: var(--text);">Lo que dicen de nosotros</h2>
+       <div class="divider mx-auto mt-4 md:mt-5"></div>
+      </div><!-- Reviews Carousel - Mobile First -->
+      <div class="reviews-container px-0 md:px-4"><button class="carousel-btn prev hidden md:flex" onclick="scrollReviews(-1)" title="Anterior">‹</button> <button class="carousel-btn next hidden md:flex" onclick="scrollReviews(1)" title="Siguiente">›</button>
+       <div class="reviews-wrapper" id="reviews-wrapper"><!-- Review 1 - 5 stars -->
+        <div class="review-card">
+         <div class="rounded-xl md:rounded-2xl p-4 md:p-8 h-full flex flex-col" style="background: var(--bg);">
+          <div class="flex items-start gap-3 mb-3"><span class="text-3xl flex-shrink-0">☕</span>
+           <div class="flex-1 min-w-0">
+            <p class="font-semibold text-xs md:text-base truncate" style="color: var(--primary);">Roberto García</p>
+            <div class="stars text-sm md:text-base">
+             ★★★★★
+            </div>
+           </div>
+          </div>
+          <p class="text-xs md:text-sm leading-relaxed flex-1" style="color: var(--text);">Excelente lugar para tomar un café tranquilo. La atmósfera es muy acogedora y el servicio impecable. Vuelvo cada semana.</p>
+         </div>
+        </div><!-- Review 2 - 5 stars -->
+        <div class="review-card">
+         <div class="rounded-xl md:rounded-2xl p-4 md:p-8 h-full flex flex-col" style="background: var(--bg);">
+          <div class="flex items-start gap-3 mb-3"><span class="text-3xl flex-shrink-0">🎨</span>
+           <div class="flex-1 min-w-0">
+            <p class="font-semibold text-xs md:text-base truncate" style="color: var(--primary);">Elena Ruiz</p>
+            <div class="stars text-sm md:text-base">
+             ★★★★★
+            </div>
+           </div>
+          </div>
+          <p class="text-xs md:text-sm leading-relaxed flex-1" style="color: var(--text);">El mejor café de Alsasua. Los pasteles caseros son increíbles y el ambiente es perfecto para trabajar o estudiar.</p>
+         </div>
+        </div><!-- Review 3 - 5 stars -->
+        <div class="review-card">
+         <div class="rounded-xl md:rounded-2xl p-4 md:p-8 h-full flex flex-col" style="background: var(--bg);">
+          <div class="flex items-start gap-3 mb-3"><span class="text-3xl flex-shrink-0">📚</span>
+           <div class="flex-1 min-w-0">
+            <p class="font-semibold text-xs md:text-base truncate" style="color: var(--primary);">Mikel Astigarraga</p>
+            <div class="stars text-sm md:text-base">
+             ★★★★★
+            </div>
+           </div>
+          </div>
+          <p class="text-xs md:text-sm leading-relaxed flex-1" style="color: var(--text);">Un lugar donde realmente se nota que cuidan los detalles. Desde la selección del café hasta la decoración, todo es especial.</p>
+         </div>
+        </div><!-- Review 4 - 5 stars -->
+        <div class="review-card">
+         <div class="rounded-xl md:rounded-2xl p-4 md:p-8 h-full flex flex-col" style="background: var(--bg);">
+          <div class="flex items-start gap-3 mb-3"><span class="text-3xl flex-shrink-0">👨‍💼</span>
+           <div class="flex-1 min-w-0">
+            <p class="font-semibold text-xs md:text-base truncate" style="color: var(--primary);">Javier Martín</p>
+            <div class="stars text-sm md:text-base">
+             ★★★★★
+            </div>
+           </div>
+          </div>
+          <p class="text-xs md:text-sm leading-relaxed flex-1" style="color: var(--text);">Ambiente tranquilo y acogedor. Perfecta relación calidad-precio. El equipo siempre dispuesto a ayudarte.</p>
+         </div>
+        </div><!-- Review 5 - 5 stars -->
+        <div class="review-card">
+         <div class="rounded-xl md:rounded-2xl p-4 md:p-8 h-full flex flex-col" style="background: var(--bg);">
+          <div class="flex items-start gap-3 mb-3"><span class="text-3xl flex-shrink-0">✨</span>
+           <div class="flex-1 min-w-0">
+            <p class="font-semibold text-xs md:text-base truncate" style="color: var(--primary);">Ana López</p>
+            <div class="stars text-sm md:text-base">
+             ★★★★★
+            </div>
+           </div>
+          </div>
+          <p class="text-xs md:text-sm leading-relaxed flex-1" style="color: var(--text);">Amor a primera taza. El mejor café specialty que he probado. El trato es familiar y siempre dispuestos a recomendar.</p>
+         </div>
+        </div>
+       </div><!-- Mobile navigation -->
+       <div class="flex justify-center gap-3 mt-6 md:hidden"><button class="carousel-btn mobile-only w-10 h-10" onclick="scrollReviews(-1)" title="Anterior">‹</button> <button class="carousel-btn mobile-only w-10 h-10" onclick="scrollReviews(1)" title="Siguiente">›</button>
+       </div>
+      </div>
+     </div>
+    </section><!-- Contact Section -->
+    <section id="contact" class="w-full px-4 md:px-6 py-12 md:py-20" style="background: var(--bg);">
+     <div class="max-w-5xl mx-auto reveal">
+      <div class="text-center mb-8 md:mb-14">
+       <h2 id="contact-heading" class="font-display text-3xl md:text-5xl font-bold" style="color: var(--text);">Visítanos</h2>
+       <div class="divider mx-auto mt-4 md:mt-5"></div>
       </div><!-- Map -->
-      <div class="mb-14">
+      <div class="mb-8 md:mb-14">
        <div id="map"></div>
       </div><!-- Contact Info Cards -->
-      <div class="grid md:grid-cols-3 gap-8"><!-- Address -->
-       <div class="text-center p-8 rounded-2xl transition-all duration-300" style="background: var(--bg);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(59,47,47,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-        <div class="text-4xl mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8"><!-- Address -->
+       <div class="text-center p-6 md:p-8 rounded-xl md:rounded-2xl transition-all duration-300" style="background: var(--surface);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(59,47,47,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div class="text-3xl md:text-4xl mb-3">
          📍
         </div>
-        <h3 class="font-display text-xl font-semibold mb-2" style="color: var(--text);">Dirección</h3>
-        <p id="contact-address" class="text-sm leading-relaxed" style="color: var(--primary);">Nafarroa Kalea, 32<br>
+        <h3 class="font-display text-lg md:text-xl font-semibold mb-2" style="color: var(--text);">Dirección</h3>
+        <p id="contact-address" class="text-xs md:text-sm leading-relaxed" style="color: var(--primary);">Nafarroa Kalea, 32<br>
          31800 Altsasu/Alsasua<br>
          Navarra</p>
        </div><!-- Phone -->
-       <div class="text-center p-8 rounded-2xl transition-all duration-300" style="background: var(--bg);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(59,47,47,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-        <div class="text-4xl mb-4">
+       <div class="text-center p-6 md:p-8 rounded-xl md:rounded-2xl transition-all duration-300" style="background: var(--surface);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(59,47,47,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div class="text-3xl md:text-4xl mb-3">
          📞
         </div>
-        <h3 class="font-display text-xl font-semibold mb-2" style="color: var(--text);">Teléfono</h3>
-        <p id="contact-phone" class="text-sm leading-relaxed" style="color: var(--primary);">948 00 00 00</p>
+        <h3 class="font-display text-lg md:text-xl font-semibold mb-2" style="color: var(--text);">Teléfono</h3>
+        <p id="contact-phone" class="text-xs md:text-sm leading-relaxed" style="color: var(--primary);">948 00 00 00</p>
        </div><!-- Hours -->
-       <div class="text-center p-8 rounded-2xl transition-all duration-300" style="background: var(--bg);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(59,47,47,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-        <div class="text-4xl mb-4">
+       <div class="text-center p-6 md:p-8 rounded-xl md:rounded-2xl transition-all duration-300" style="background: var(--surface);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(59,47,47,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div class="text-3xl md:text-4xl mb-3">
          🕐
         </div>
-        <h3 class="font-display text-xl font-semibold mb-2" style="color: var(--text);">Horario</h3>
-        <p id="contact-hours" class="text-sm leading-relaxed" style="color: var(--primary);">Lun - Sáb: 7:30 - 20:00<br>
-         Domingos: 8:30 - 14:00</p>
+        <h3 class="font-display text-lg md:text-xl font-semibold mb-2" style="color: var(--text);">Horario</h3>
+        <p id="contact-hours" class="text-xs md:text-sm leading-relaxed font-medium" style="color: var(--primary);">Lun-Sáb: 8-14 y 16:30-21<br>
+         Dom: Cerrado</p>
        </div>
       </div>
      </div>
     </section>
    </main><!-- Footer -->
-   <footer class="w-full px-6 py-10 text-center" style="background: var(--text);">
-    <p class="font-display text-lg font-semibold mb-1" style="color: var(--secondary);">Vemar Cafetería</p>
+   <footer class="w-full px-4 md:px-6 py-8 text-center" style="background: var(--text);">
+    <p class="font-display text-base md:text-lg font-semibold mb-1" style="color: var(--secondary);">Vemar Cafetería</p>
     <p class="text-xs tracking-wider uppercase" style="color: var(--secondary); opacity: 0.6;">Alsasua, Navarra — Hecho con ☕ y cariño</p>
    </footer>
   </div>
   <script>
+    // Reviews carousel - mobile optimized
+    let currentReviewIndex = 0;
+    const reviewsWrapper = document.getElementById('reviews-wrapper');
+
+    function getVisibleCards() {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 640) return 2;
+      return 1;
+    }
+
+    function scrollReviews(direction) {
+      const reviewCards = document.querySelectorAll('.review-card');
+      const maxScroll = Math.max(0, reviewCards.length - getVisibleCards());
+      currentReviewIndex = Math.max(0, Math.min(currentReviewIndex + direction, maxScroll));
+      updateReviewsPosition();
+    }
+
+    function updateReviewsPosition() {
+      const cardWidth = reviewsWrapper.querySelector('.review-card')?.offsetWidth || 0;
+      const gap = window.innerWidth >= 1024 ? 12 : (window.innerWidth >= 640 ? 12 : 12);
+      const offset = currentReviewIndex * (cardWidth + gap);
+      reviewsWrapper.style.transform = `translateX(-${offset}px)`;
+    }
+
+    window.addEventListener('resize', () => {
+      currentReviewIndex = 0;
+      updateReviewsPosition();
+    });
+
     // Initialize map
-    let map = L.map('map').setView([42.8942957, -2.1750663], 16);
+    let map = L.map('map').setView([42.8942957, -2.1750663], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19,
-      tileSize: 256
+      attribution: '© OpenStreetMap',
+      maxZoom: 19
     }).addTo(map);
 
-    // Add marker
-    L.marker([42.8942957, -2.1750663], {
-      title: 'Vemar Cafetería'
-    }).addTo(map).bindPopup('<strong>Vemar Cafetería</strong><br>Nafarroa Kalea, 32<br>31800 Alsasua, Navarra');
+    L.marker([42.8942957, -2.1750663]).addTo(map)
+      .bindPopup('<strong style="font-size: 14px;">Vemar Cafetería</strong><br><span style="font-size: 12px;">Nafarroa Kalea, 32<br>31800 Alsasua</span>');
 
     // Scroll reveal observer
     const observer = new IntersectionObserver((entries) => {
@@ -333,11 +534,11 @@
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Element SDK setup
+    // Element SDK
     const defaultConfig = {
       hero_title: 'Vemar\nCafetería',
       hero_subtitle: 'Tu rincón de tranquilidad en Alsasua',
@@ -347,7 +548,7 @@
       contact_heading: 'Visítanos',
       contact_address: 'Nafarroa Kalea, 32\n31800 Altsasu/Alsasua\nNavarra',
       contact_phone: '948 00 00 00',
-      contact_hours: 'Lun - Sáb: 7:30 - 20:00\nDomingos: 8:30 - 14:00',
+      contact_hours: 'Lun-Sáb: 8-14 y 16:30-21\nDom: Cerrado',
       logo_url: '',
       background_color: '#F4EDE4',
       surface_color: '#FFFFFF',
@@ -361,161 +562,79 @@
     function applyConfig(config) {
       const c = { ...defaultConfig, ...config };
 
-      // Colors
       document.documentElement.style.setProperty('--bg', c.background_color);
       document.documentElement.style.setProperty('--surface', c.surface_color);
       document.documentElement.style.setProperty('--text', c.text_color);
       document.documentElement.style.setProperty('--primary', c.primary_color);
       document.documentElement.style.setProperty('--secondary', c.secondary_color);
 
-      // Font
       const fontStack = `${c.font_family}, 'Jost', sans-serif`;
       document.body.style.fontFamily = fontStack;
 
-      // Font size - scale proportionally
       const base = c.font_size;
-      const heroTitle = document.getElementById('hero-title');
-      const heroSub = document.getElementById('hero-subtitle');
-      const aboutH = document.getElementById('about-heading');
-      const aboutT = document.getElementById('about-text');
-      const galleryH = document.getElementById('gallery-heading');
-      const contactH = document.getElementById('contact-heading');
-      const contactAddr = document.getElementById('contact-address');
-      const contactPh = document.getElementById('contact-phone');
-      const contactHrs = document.getElementById('contact-hours');
+      const els = {
+        'hero-title': base * 3.5,
+        'hero-subtitle': base * 1.2,
+        'about-heading': base * 2.5,
+        'about-text': base,
+        'gallery-heading': base * 2.5,
+        'contact-heading': base * 2.5,
+        'contact-address': base * 0.875,
+        'contact-phone': base * 0.875,
+        'contact-hours': base * 0.875
+      };
 
-      // Text content
-      if (heroTitle) {
-        heroTitle.innerHTML = c.hero_title.replace(/\n/g, '<br/>');
-        heroTitle.style.fontSize = `${base * 3.5}px`;
-      }
-      if (heroSub) {
-        heroSub.textContent = c.hero_subtitle;
-        heroSub.style.fontSize = `${base * 1.2}px`;
-      }
-      if (aboutH) {
-        aboutH.textContent = c.about_heading;
-        aboutH.style.fontSize = `${base * 2.5}px`;
-      }
-      if (aboutT) {
-        aboutT.textContent = c.about_text;
-        aboutT.style.fontSize = `${base}px`;
-      }
-      if (galleryH) {
-        galleryH.textContent = c.gallery_heading;
-        galleryH.style.fontSize = `${base * 2.5}px`;
-      }
-      if (contactH) {
-        contactH.textContent = c.contact_heading;
-        contactH.style.fontSize = `${base * 2.5}px`;
-      }
-      if (contactAddr) {
-        contactAddr.innerHTML = c.contact_address.replace(/\n/g, '<br/>');
-        contactAddr.style.fontSize = `${base * 0.875}px`;
-      }
-      if (contactPh) {
-        contactPh.textContent = c.contact_phone;
-        contactPh.style.fontSize = `${base * 0.875}px`;
-      }
-      if (contactHrs) {
-        contactHrs.innerHTML = c.contact_hours.replace(/\n/g, '<br/>');
-        contactHrs.style.fontSize = `${base * 0.875}px`;
-      }
+      Object.entries(els).forEach(([id, size]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.fontSize = `${size}px`;
+          if (id.includes('title') || id.includes('heading')) {
+            el.innerHTML = (c[id] || defaultConfig[id]).replace(/\n/g, '<br/>');
+          } else if (id === 'about-text' || id === 'gallery-heading') {
+            el.textContent = c[id] || defaultConfig[id];
+          } else if (id.includes('contact')) {
+            el.innerHTML = (c[id] || defaultConfig[id]).replace(/\n/g, '<br/>');
+          }
+        }
+      });
 
-      // Logo
       const logoImg = document.getElementById('logo-img');
-      const logoPlaceholder = document.getElementById('logo-placeholder');
-      if (c.logo_url && c.logo_url.trim()) {
+      const logoPh = document.getElementById('logo-placeholder');
+      if (c.logo_url?.trim()) {
         logoImg.src = c.logo_url;
         logoImg.style.display = 'block';
-        logoPlaceholder.style.display = 'none';
+        logoPh.style.display = 'none';
       } else {
         logoImg.style.display = 'none';
-        logoPlaceholder.style.display = 'flex';
+        logoPh.style.display = 'flex';
       }
-
-      // Apply background colors to sections
-      document.getElementById('app-wrapper').style.background = c.background_color;
-      document.querySelector('header').style.background = c.background_color;
-      document.querySelector('footer').style.background = c.text_color;
-
-      // Update surface sections
-      document.querySelectorAll('#about, #contact').forEach(s => {
-        s.style.background = c.surface_color;
-      });
-      document.querySelectorAll('#hero, #gallery').forEach(s => {
-        s.style.background = c.background_color;
-      });
-
-      // Update contact cards
-      document.querySelectorAll('#contact .rounded-2xl').forEach(card => {
-        card.style.background = c.background_color;
-      });
-
-      // Redraw map colors
-      map.invalidateSize();
     }
 
-    // Initialize Element SDK
     if (window.elementSdk) {
       window.elementSdk.init({
         defaultConfig,
-        onConfigChange: async (config) => {
-          applyConfig(config);
-        },
+        onConfigChange: async (config) => { applyConfig(config); },
         mapToCapabilities: (config) => {
           const c = { ...defaultConfig, ...config };
           return {
             recolorables: [
-              {
-                get: () => c.background_color,
-                set: (v) => { c.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
-              },
-              {
-                get: () => c.surface_color,
-                set: (v) => { c.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
-              },
-              {
-                get: () => c.text_color,
-                set: (v) => { c.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
-              },
-              {
-                get: () => c.primary_color,
-                set: (v) => { c.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
-              },
-              {
-                get: () => c.secondary_color,
-                set: (v) => { c.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); }
-              }
+              { get: () => c.background_color, set: (v) => { c.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+              { get: () => c.surface_color, set: (v) => { c.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+              { get: () => c.text_color, set: (v) => { c.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+              { get: () => c.primary_color, set: (v) => { c.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+              { get: () => c.secondary_color, set: (v) => { c.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } }
             ],
             borderables: [],
-            fontEditable: {
-              get: () => c.font_family,
-              set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
-            },
-            fontSizeable: {
-              get: () => c.font_size,
-              set: (v) => { c.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
-            }
+            fontEditable: { get: () => c.font_family, set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+            fontSizeable: { get: () => c.font_size, set: (v) => { c.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
           };
         },
         mapToEditPanelValues: (config) => {
           const c = { ...defaultConfig, ...config };
-          return new Map([
-            ['hero_title', c.hero_title],
-            ['hero_subtitle', c.hero_subtitle],
-            ['about_heading', c.about_heading],
-            ['about_text', c.about_text],
-            ['gallery_heading', c.gallery_heading],
-            ['contact_heading', c.contact_heading],
-            ['contact_address', c.contact_address],
-            ['contact_phone', c.contact_phone],
-            ['contact_hours', c.contact_hours],
-            ['logo_url', c.logo_url]
-          ]);
+          return new Map(Object.entries(c).filter(([k]) => defaultConfig.hasOwnProperty(k)).map(([k, v]) => [k, String(v)]));
         }
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd2f48dd21fcc6b',t:'MTc3MDk3MTMzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd30f0945dda6b0',t:'MTc3MDk3MjQyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
