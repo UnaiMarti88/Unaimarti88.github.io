@@ -70,18 +70,6 @@
       border-radius: 2px;
     }
 
-    @keyframes steam {
-      0% { opacity: 0; transform: translateY(0) scaleX(1); }
-      30% { opacity: 0.6; }
-      70% { opacity: 0.3; transform: translateY(-20px) scaleX(1.3); }
-      100% { opacity: 0; transform: translateY(-40px) scaleX(0.8); }
-    }
-    .steam-line {
-      animation: steam 2.5s ease-in-out infinite;
-    }
-    .steam-line:nth-child(2) { animation-delay: 0.5s; }
-    .steam-line:nth-child(3) { animation-delay: 1s; }
-
     .grain-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -104,12 +92,12 @@
     .logo-container {
       display: flex;
       align-items: center;
-      height: 45px;
+      height: 60px;
     }
 
     .logo-container img {
       max-height: 100%;
-      max-width: 45px;
+      max-width: 120px;
       object-fit: contain;
     }
 
@@ -236,8 +224,8 @@
   <div id="app-wrapper" class="w-full h-full overflow-auto" style="background: var(--bg);"><!-- Navigation -->
    <header class="w-full sticky top-0 z-50 shadow-sm" style="background: var(--bg);">
     <nav class="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
-     <div class="logo-container"><img id="logo-img" src="" alt="Logo" loading="lazy" onerror="console.error('Logo failed:', this.src); document.getElementById('logo-placeholder').style.display='flex'; this.style.display='none';" style="display: none;">
-      <div id="logo-placeholder" class="logo-placeholder">
+     <div class="logo-container"><img id="logo-img" src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16%20(4).jpeg" alt="Logo Vemar" loading="lazy" onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';">
+      <div id="logo-placeholder" class="logo-placeholder" style="display: none;">
        V
       </div>
      </div>
@@ -253,14 +241,8 @@
         Cafetería</h1>
        <div class="divider mx-auto md:mx-0 mt-4 md:mt-6 mb-4 md:mb-6 anim-in anim-delay-1"></div>
        <p id="hero-subtitle" class="text-base md:text-xl font-light leading-relaxed max-w-md mx-auto md:mx-0 anim-in anim-delay-2" style="color: var(--primary);">Tu rincón de tranquilidad en Alsasua</p><a href="#about" class="inline-block mt-6 md:mt-8 px-6 md:px-8 py-2 md:py-3 rounded-full text-xs md:text-sm font-medium tracking-wider uppercase transition-all duration-300 anim-in anim-delay-3" style="background: var(--primary); color: var(--surface);" onmouseover="this.style.background='var(--text)'" onmouseout="this.style.background='var(--primary)'"> Descúbrenos </a>
-      </div><!-- Coffee cup SVG illustration -->
-      <div class="flex-1 flex justify-center anim-in anim-delay-3">
-       <svg width="200" height="240" viewbox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-xs md:max-w-none"><!-- Steam --> <g transform="translate(100, 20)">
-         <path class="steam-line" d="M20 60 Q25 40, 20 20 Q15 0, 20 -15" stroke="var(--secondary)" stroke-width="2.5" fill="none" stroke-linecap="round" />
-         <path class="steam-line" d="M40 55 Q45 35, 40 15 Q35 -5, 40 -20" stroke="var(--secondary)" stroke-width="2.5" fill="none" stroke-linecap="round" />
-         <path class="steam-line" d="M60 60 Q65 40, 60 20 Q55 0, 60 -15" stroke="var(--secondary)" stroke-width="2.5" fill="none" stroke-linecap="round" />
-        </g> <!-- Saucer --> <ellipse cx="130" cy="280" rx="120" ry="18" fill="var(--secondary)" opacity="0.3" /> <ellipse cx="130" cy="275" rx="110" ry="14" fill="var(--surface)" /> <ellipse cx="130" cy="273" rx="100" ry="10" fill="var(--secondary)" opacity="0.15" /> <!-- Cup body --> <path d="M60 120 L70 260 Q130 285, 190 260 L200 120 Z" fill="var(--surface)" stroke="var(--secondary)" stroke-width="2" /> <!-- Coffee liquid --> <ellipse cx="130" cy="145" rx="68" ry="20" fill="var(--primary)" opacity="0.85" /> <ellipse cx="130" cy="142" rx="60" ry="14" fill="var(--primary)" opacity="0.5" /> <!-- Cup rim --> <ellipse cx="130" cy="120" rx="72" ry="22" fill="var(--surface)" stroke="var(--secondary)" stroke-width="2" /> <ellipse cx="130" cy="118" rx="66" ry="18" fill="var(--bg)" /> <!-- Handle --> <path d="M200 150 Q240 155, 245 190 Q248 225, 200 230" stroke="var(--secondary)" stroke-width="6" fill="none" stroke-linecap="round" /> <!-- Latte art hint --> <path d="M120 138 Q130 132, 140 138" stroke="var(--surface)" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round" />
-       </svg>
+      </div><!-- Hero Image -->
+      <div class="flex-1 flex justify-center anim-in anim-delay-3"><img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16%20(5).jpeg" alt="Vemar Cafetería" loading="lazy" class="w-full max-w-xs md:max-w-md rounded-lg shadow-lg" onerror="this.style.display='none';">
       </div>
      </div>
     </section><!-- About Section -->
@@ -282,7 +264,7 @@
          </div>
         </div>
        </div><!-- Photo from GitHub -->
-       <div class="flex justify-center hidden md:flex"><img src="https://unaimarti88.github.io/IMG_20240316_144206.jpg" alt="Vemar Cafetería interior" loading="lazy" class="about-image max-w-sm" onerror="this.style.display='none';">
+       <div class="flex justify-center hidden md:flex"><img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/IMG_20240316_144206.jpg" alt="Vemar Cafetería interior" loading="lazy" class="about-image max-w-sm" onerror="this.style.display='none';">
        </div>
       </div>
      </div>
@@ -293,48 +275,30 @@
        <h2 id="gallery-heading" class="font-display text-3xl md:text-5xl font-bold" style="color: var(--text);">Nuestro Espacio</h2>
        <div class="divider mx-auto mt-4 md:mt-5"></div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5"><!-- Gallery cards -->
-       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
-         <rect x="10" y="30" width="50" height="45" rx="5" fill="var(--secondary)" opacity="0.4" /><rect x="15" y="35" width="40" height="30" rx="3" fill="var(--primary)" opacity="0.3" /><circle cx="35" cy="48" r="8" fill="var(--primary)" opacity="0.5" /><path d="M65 45 Q70 35, 80 40 Q85 50, 75 55 Q65 55, 65 45Z" fill="var(--secondary)" opacity="0.5" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          La barra
-         </text>
-        </svg>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5"><!-- Gallery images -->
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16%20(3).jpeg" alt="Galería 1" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
        </div>
-       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
-         <rect x="25" y="30" width="50" height="35" rx="8" fill="var(--secondary)" opacity="0.3" /><rect x="30" y="45" width="15" height="18" rx="2" fill="var(--primary)" opacity="0.4" /><rect x="50" y="45" width="15" height="18" rx="2" fill="var(--primary)" opacity="0.4" /><circle cx="38" cy="38" r="3" fill="var(--primary)" opacity="0.6" /><circle cx="57" cy="38" r="3" fill="var(--primary)" opacity="0.6" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Acogedor
-         </text>
-        </svg>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16%20(2).jpeg" alt="Galería 2" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
        </div>
-       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
-         <circle cx="50" cy="45" r="20" fill="var(--secondary)" opacity="0.3" /><circle cx="50" cy="45" r="14" fill="var(--primary)" opacity="0.35" /><path d="M45 42 Q50 38, 55 42" stroke="var(--surface)" stroke-width="1.5" fill="none" opacity="0.6" /><path d="M50 25 Q52 18, 50 12" stroke="var(--secondary)" stroke-width="1.5" fill="none" stroke-linecap="round" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="10" fill="var(--primary)">
-          Café
-         </text>
-        </svg>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16%20(1).jpeg" alt="Galería 3" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
        </div>
-       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
-         <rect x="20" y="35" width="60" height="30" rx="15" fill="var(--secondary)" opacity="0.3" /><circle cx="35" cy="50" r="10" fill="var(--primary)" opacity="0.4" /><circle cx="65" cy="50" r="10" fill="var(--primary)" opacity="0.3" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="9" fill="var(--primary)">
-          Pasteles
-         </text>
-        </svg>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16.jpeg" alt="Galería 4" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
        </div>
-       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
-         <path d="M25 60 L50 25 L75 60 Z" fill="var(--secondary)" opacity="0.25" /><path d="M35 60 L50 35 L65 60 Z" fill="var(--primary)" opacity="0.3" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="9" fill="var(--primary)">
-          Ambiente
-         </text>
-        </svg>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.15%20(2).jpeg" alt="Galería 5" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
        </div>
-       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square flex items-center justify-center" style="background: var(--surface);">
-        <svg width="80" height="80" viewbox="0 0 100 100" fill="none">
-         <rect x="30" y="25" width="40" height="45" rx="6" fill="var(--secondary)" opacity="0.25" /><rect x="35" y="30" width="30" height="20" rx="3" fill="var(--primary)" opacity="0.3" /><text x="50" y="92" text-anchor="middle" font-family="'Jost', sans-serif" font-size="9" fill="var(--primary)">
-          Carta
-         </text>
-        </svg>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.15%20(1).jpeg" alt="Galería 6" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.15.jpeg" alt="Galería 7" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
+       </div>
+       <div class="gallery-card rounded-xl md:rounded-2xl overflow-hidden aspect-square">
+        <img src="https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2008.39.48.jpeg" alt="Galería 8" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.background='var(--surface)';">
        </div>
       </div>
      </div>
@@ -531,7 +495,7 @@
       contact_heading: 'Visítanos',
       contact_address: 'Nafarroa Kalea, 32\n31800 Altsasu/Alsasua\nNavarra',
       contact_hours: 'Abierto 24 horas\nTodos los días',
-      logo_url: '',
+      logo_url: 'https://raw.githubusercontent.com/unaimarti88/unaimarti88.github.io/main/WhatsApp%20Image%202026-02-13%20at%2010.07.16%20(4).jpeg',
       background_color: '#F4EDE4',
       surface_color: '#FFFFFF',
       text_color: '#3B2F2F',
@@ -617,5 +581,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd324bcc4352171',t:'MTc3MDk3MzMxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd338fe6299cc6b',t:'MTc3MDk3NDE0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
