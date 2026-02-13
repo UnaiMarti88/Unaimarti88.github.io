@@ -3,10 +3,280 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prueba GitHub Pages</title>
+  <title>Cafetería Vemar</title>
+  <meta name="description" content="Cafetería Vemar: café artesanal, repostería y un espacio acogedor." />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body style="font-family: Arial; padding: 40px;">
-  <h1>✅ GitHub Pages funciona</h1>
-  <p>Si ves esto, el problema era tu HTML/CSS anterior.</p>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#inicio" aria-label="Cafetería Vemar">
+      <span class="brand-mark">☕</span>
+      <span class="brand-text">
+        <strong>Cafetería Vemar</strong>
+        <small>Café & Repostería</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#nosotros">Nosotros</a>
+      <a href="#menu">Menú</a>
+      <a href="#galeria">Galería</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a class="nav-cta" href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="pill">☕ Café artesanal · 🥐 Repostería · 🧡 Ambiente acogedor</p>
+        <h1>Un buen café puede cambiar tu día.</h1>
+        <p class="lead">
+          En <strong>Cafetería Vemar</strong> cuidamos cada detalle: granos seleccionados,
+          recetas caseras y un espacio perfecto para conversar, estudiar o trabajar.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn" href="#menu">Ver menú</a>
+          <a class="btn btn-ghost" href="#ubicacion">Cómo llegar</a>
+        </div>
+
+        <div class="hero-badges" role="list" aria-label="Destacados">
+          <div class="badge" role="listitem">
+            <strong>Café de especialidad</strong>
+            <span>Tueste medio · notas aromáticas</span>
+          </div>
+          <div class="badge" role="listitem">
+            <strong>Repostería del día</strong>
+            <span>Opciones dulces y saladas</span>
+          </div>
+          <div class="badge" role="listitem">
+            <strong>Wi-Fi & enchufes</strong>
+            <span>Ideal para trabajar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Info rápida">
+        <h2>Hoy en Vemar</h2>
+        <ul class="info-list">
+          <li><span>Horario</span><strong>08:00 – 20:00</strong></li>
+          <li><span>Especialidad</span><strong>Latte Vemar</strong></li>
+          <li><span>Pedido</span><strong>Para llevar</strong></li>
+        </ul>
+        <p class="muted">
+          *Puedes editar horarios, especialidad y todo el contenido cuando quieras.
+        </p>
+        <a class="btn btn-full" href="#contacto">Reservar / Consultar</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="nosotros" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Sobre nosotros</h2>
+        <p>
+          Somos una cafetería de barrio con corazón: ingredientes de calidad,
+          atención cercana y recetas hechas con mimo.
+        </p>
+      </div>
+
+      <div class="cards-3">
+        <article class="card">
+          <h3>Ingredientes honestos</h3>
+          <p>Leche, café y productos frescos. Priorizamos sabor y calidad.</p>
+        </article>
+        <article class="card">
+          <h3>Ambiente tranquilo</h3>
+          <p>Mesas cómodas, música suave y un lugar donde apetece quedarse.</p>
+        </article>
+        <article class="card">
+          <h3>Para todos los gustos</h3>
+          <p>Opciones sin lactosa, bebidas frías y repostería del día.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Menú</h2>
+        <p>Ejemplo de carta. Cambia nombres y precios cuando quieras.</p>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-block">
+          <h3>☕ Cafés</h3>
+          <ul class="menu-list">
+            <li><span>Espresso</span><strong>1,60€</strong></li>
+            <li><span>Americano</span><strong>1,80€</strong></li>
+            <li><span>Cappuccino</span><strong>2,20€</strong></li>
+            <li><span>Latte</span><strong>2,40€</strong></li>
+            <li><span>Latte Vemar (firma)</span><strong>2,90€</strong></li>
+          </ul>
+        </div>
+
+        <div class="menu-block">
+          <h3>🥤 Bebidas</h3>
+          <ul class="menu-list">
+            <li><span>Té e infusiones</span><strong>2,00€</strong></li>
+            <li><span>Chocolate caliente</span><strong>2,50€</strong></li>
+            <li><span>Matcha latte</span><strong>3,20€</strong></li>
+            <li><span>Café frío</span><strong>2,80€</strong></li>
+            <li><span>Limonada casera</span><strong>2,60€</strong></li>
+          </ul>
+        </div>
+
+        <div class="menu-block">
+          <h3>🥐 Repostería</h3>
+          <ul class="menu-list">
+            <li><span>Croissant mantequilla</span><strong>1,80€</strong></li>
+            <li><span>Cookie artesanal</span><strong>2,10€</strong></li>
+            <li><span>Cheesecake</span><strong>3,50€</strong></li>
+            <li><span>Bizcocho del día</span><strong>2,90€</strong></li>
+            <li><span>Tarta de zanahoria</span><strong>3,60€</strong></li>
+          </ul>
+        </div>
+
+        <div class="menu-block">
+          <h3>🥪 Salado</h3>
+          <ul class="menu-list">
+            <li><span>Tostada tomate y AOVE</span><strong>2,40€</strong></li>
+            <li><span>Mixto</span><strong>3,20€</strong></li>
+            <li><span>Bocadillo pollo</span><strong>4,20€</strong></li>
+            <li><span>Bagel aguacate</span><strong>4,90€</strong></li>
+            <li><span>Ensalada de temporada</span><strong>5,50€</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cta-strip">
+        <div>
+          <h3>¿Tienes un evento?</h3>
+          <p>Podemos preparar bandejas de repostería y café para grupos.</p>
+        </div>
+        <a class="btn" href="#contacto">Pedir presupuesto</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Galería</h2>
+        <p>Bloques de imagen listos (puedes reemplazar por fotos reales).</p>
+      </div>
+
+      <div class="gallery">
+        <div class="ph" aria-label="Foto 1"></div>
+        <div class="ph" aria-label="Foto 2"></div>
+        <div class="ph" aria-label="Foto 3"></div>
+        <div class="ph" aria-label="Foto 4"></div>
+      </div>
+      <p class="muted center">Tip: luego podemos añadir fotos reales y optimizarlas para que carguen rápido.</p>
+    </div>
+  </section>
+
+  <section id="ubicacion" class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Ubicación</h2>
+        <p>Dirección y mapa. (Ahora está como ejemplo.)</p>
+      </div>
+
+      <div class="location-grid">
+        <div class="card">
+          <h3>📍 Dirección</h3>
+          <p><strong>Cafetería Vemar</strong><br/>Calle Ejemplo 123, Tu Ciudad</p>
+          <p><strong>Horario</strong><br/>Lun–Sáb: 08:00–20:00 · Dom: 09:00–14:00</p>
+          <p class="muted">Cambia esta información por la real.</p>
+
+          <div class="location-actions">
+            <a class="btn btn-ghost" href="https://www.google.com/maps" target="_blank" rel="noopener">Abrir en Maps</a>
+            <a class="btn" href="#contacto">Consultar</a>
+          </div>
+        </div>
+
+        <div class="map">
+          <!-- Sustituye el src por el iframe real de Google Maps cuando tengas la dirección -->
+          <iframe
+            title="Mapa (ejemplo)"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-3.706%2C40.410%2C-3.690%2C40.420&layer=mapnik"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Contacto</h2>
+        <p>Para GitHub Pages, lo mejor es usar un formulario externo o WhatsApp.</p>
+      </div>
+
+      <div class="contact-grid">
+        <form class="form card" action="https://formspree.io/f/XXXXXXXX" method="POST">
+          <h3>✉️ Envíanos un mensaje</h3>
+          <label>
+            Nombre
+            <input name="nombre" type="text" placeholder="Tu nombre" required />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" placeholder="tucorreo@email.com" required />
+          </label>
+          <label>
+            Mensaje
+            <textarea name="mensaje" placeholder="¿Qué necesitas?" required></textarea>
+          </label>
+          <button class="btn btn-full" type="submit">Enviar</button>
+          <p class="muted">
+            Reemplaza <strong>XXXXXXXX</strong> por tu endpoint de Formspree (gratuito).
+          </p>
+        </form>
+
+        <div class="card contact-card">
+          <h3>📞 Datos</h3>
+          <ul class="plain">
+            <li><strong>Tel:</strong> +34 600 000 000</li>
+            <li><strong>Email:</strong> contacto@cafeteriavemar.com</li>
+            <li><strong>Instagram:</strong> @cafeteriavemar</li>
+          </ul>
+
+          <div class="contact-actions">
+            <a class="btn" href="https://wa.me/34600000000" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn btn-ghost" href="mailto:contacto@cafeteriavemar.com">Email</a>
+          </div>
+
+          <div class="mini-note">
+            <p class="muted">
+              Si me pasas tu teléfono/Instagram reales, te lo dejo configurado.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>© <span id="year"></span> Cafetería Vemar · Hecho con ❤️</p>
+    <a href="#inicio">Volver arriba ↑</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 </body>
 </html>
